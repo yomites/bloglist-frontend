@@ -12,7 +12,7 @@ const App = () => {
   const [newTitle, setNewTitle] = useState('')
   const [newAuthor, setNewAuthor] = useState('')
   const [newUrl, setNewUrl] = useState('')
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [notification, setNotification] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
@@ -32,9 +32,15 @@ const App = () => {
     }
   }, [])
 
+  const notifyWith = (message, type='success') => {
+    setNotification({ message, type })
+    setTimeout(() => {
+      setNotification(null)
+    }, 5000)
+  }
+
   const handleLogin = async (event) => {
     event.preventDefault()
-//    console.log('logging in with', username, password)
     try {
       const user = await loginService.login({
         username, password,
@@ -49,35 +55,27 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setErrorMessage('Wrong credentials')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      notifyWith('Incorrect username or password', 'error')
     }
   }
 
   const handleTitleChange = (event) => {
-    console.log(event.target.value)
     setNewTitle(event.target.value)
   }
 
   const handleAuthorChange = (event) => {
-    console.log(event.target.value)
     setNewAuthor(event.target.value)
   }
 
   const handleUrlChange = (event) => {
-    console.log(event.target.value)
     setNewUrl(event.target.value)
   }
 
   const handleUsernameChange = (event) => {
-    console.log(event.target.value)
     setUsername(event.target.value)
   }
 
   const handlePasswordChange = (event) => {
-    console.log(event.target.value)
     setPassword(event.target.value)
   }
 
@@ -94,7 +92,8 @@ const App = () => {
       .create(blogObject)
       .then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog))
-
+        notifyWith(`${returnedBlog.title} by ${returnedBlog.author} successfully added`)
+    
         setNewTitle('')
         setNewAuthor('')
         setNewUrl('')
@@ -111,7 +110,7 @@ const App = () => {
     return (
       <div>
         <h2>Log in to application</h2>
-        <Notification message={errorMessage} />
+        <Notification notification={notification} />
         <LoginForm handleLogin={handleLogin}
           handleUsernameChange={handleUsernameChange}
           handlePasswordChange={handlePasswordChange}
@@ -125,7 +124,7 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
-      <Notification message={errorMessage} />
+      <Notification notification={notification} />
       <p>
         {user.name} logged in
         <button onClick={logoutUser}>logout</button>
