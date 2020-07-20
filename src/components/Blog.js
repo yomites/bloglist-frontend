@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
-const Blog = ({ blog }) => {
-
-  //console.log(blog.user)
+const Blog = ({ blog, updateLikes }) => {
 
   const [viewVisible, setViewVisible] = useState(false)
 
@@ -13,26 +11,36 @@ const Blog = ({ blog }) => {
     marginBottom: 5
   }
 
-  if (viewVisible && blog.user!==undefined) {
+  const updateBlog = (blog) => {
+    updateLikes({
+      user: blog.user,
+      title: blog.title,
+      author: blog.author,
+      url: blog.url,
+      likes: blog.likes,
+    })
+  }
+
+  if (viewVisible && blog.user !== undefined) {
     return (
       <div style={blogStyle}>
         <div>
           {blog.title} {blog.author}
           <button onClick={() => setViewVisible(false)}>hide</button> <br />
           {blog.url} <br />
-        likes {blog.likes} <button>like</button> <br />
-        {blog.user.name}
+        likes {blog.likes} <button onClick={updateBlog}>like</button> <br />
+          {blog.user.name}
         </div>
       </div>
     )
-  } else if (viewVisible && blog.user===undefined) {
+  } else if (viewVisible && blog.user === undefined) {
     return (
       <div style={blogStyle}>
         <div>
           {blog.title} {blog.author}
           <button onClick={() => setViewVisible(false)}>hide</button> <br />
           {blog.url} <br />
-        likes {blog.likes} <button>like</button>
+        likes {blog.likes} <button onClick={updateBlog}>like</button>
         </div>
       </div>
     )

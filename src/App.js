@@ -21,6 +21,7 @@ const App = () => {
       setBlogs(blogs)
     )
   }, [])
+  console.log('render', blogs.length, 'blogs')
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -75,7 +76,24 @@ const App = () => {
         notifyWith(`${returnedBlog.title} by ${returnedBlog.author} successfully added`)
       }).catch(error => {
         notifyWith(`The fields can not be empty`, 'error')
-      })      
+      })
+  }
+
+  const updateBlogLikes = id => {
+    console.log('ID', id)
+    const blog = blogs.find(b => b.id === id)
+    console.log('blog', blog)
+    const changedBlog = {
+      ...blog,
+      likes: blog.likes + 1,
+    }
+
+    blogService
+      .update(id, changedBlog)
+      .then(returnedBlog => {
+        setBlogs(blogs.map(blog => blog.id !== id ? blog
+          : returnedBlog))
+      })
   }
 
   const logoutUser = () => {
@@ -116,8 +134,9 @@ const App = () => {
         <button onClick={logoutUser}>logout</button>
       </p>
       {blogForm()}
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+      {blogs.map((blog, i) =>
+        <Blog key={i} blog={blog}
+          updateLikes={() => updateBlogLikes(blog.id)} />
       )}
     </div>
   )
