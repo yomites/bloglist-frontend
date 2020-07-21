@@ -80,9 +80,8 @@ const App = () => {
   }
 
   const updateBlogLikes = id => {
-    console.log('ID', id)
+
     const blog = blogs.find(b => b.id === id)
-    console.log('blog', blog)
     const changedBlog = {
       ...blog,
       likes: blog.likes + 1,
@@ -114,6 +113,23 @@ const App = () => {
     return b.likes - a.likes
   })
 
+  const deleteBlog = (id) => {
+    const toDelete = blogs.find(p => p.id === id)
+    const ok = window.confirm(`Delete ${toDelete.title} by ${toDelete.author}`)
+    if (ok && toDelete) {
+      blogService.remove(id)
+        .then(() => {
+          setBlogs(blogs.filter(b => b.id !== id))
+          notifyWith(`Deleted ${toDelete.title} by ${toDelete.author}`)
+        }).catch(error => {
+          error.response.data.code === 401 ?
+          setBlogs(blogs) :
+          setBlogs(blogs.filter(b => b.id !== id))
+          notifyWith(error.response.data.error, 'error')
+        })
+    }
+  }
+
   if (user === null) {
     return (
       <div>
@@ -140,7 +156,9 @@ const App = () => {
       {blogForm()}
       {sortBlogsByLikes.map(blog =>
         <Blog key={blog.id} blog={blog}
-          updateLikes={() => updateBlogLikes(blog.id)} />
+          updateLikes={() => updateBlogLikes(blog.id)}
+          user={user}
+          deleteBlog={deleteBlog} />
       )}
     </div>
   )

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-const Blog = ({ blog, updateLikes }) => {
+const Blog = ({ blog, updateLikes, user, deleteBlog }) => {
 
   const [viewVisible, setViewVisible] = useState(false)
 
@@ -26,10 +26,17 @@ const Blog = ({ blog, updateLikes }) => {
       <div style={blogStyle}>
         <div>
           {blog.title} {blog.author}
-          <button onClick={() => setViewVisible(false)}>hide</button> <br />
+          <button onClick={() =>
+            setViewVisible(false)}
+            style={{ backgroundColor: 'yellow' }}>hide</button> <br />
           {blog.url} <br />
-        likes {blog.likes} <button onClick={updateBlog}>like</button> <br />
-          {blog.user.name}
+        likes {blog.likes} <button onClick={updateBlog}
+            style={{ backgroundColor: 'green' }}>like</button> <br />
+          {blog.user.name} <br />
+          <button
+            disabled={user.id !== blog.user.id ? true : false}
+            onClick={() => deleteBlog(blog.id)}
+            style={{ backgroundColor: 'red' }}>remove</button>
         </div>
       </div>
     )
@@ -38,9 +45,12 @@ const Blog = ({ blog, updateLikes }) => {
       <div style={blogStyle}>
         <div>
           {blog.title} {blog.author}
-          <button onClick={() => setViewVisible(false)}>hide</button> <br />
+          <button onClick={() =>
+            setViewVisible(false)}
+            style={{ backgroundColor: 'yellow' }}>hide</button> <br />
           {blog.url} <br />
-        likes {blog.likes} <button onClick={updateBlog}>like</button>
+        likes {blog.likes} <button onClick={updateBlog}
+            style={{ backgroundColor: 'green' }}>like</button>
         </div>
       </div>
     )
@@ -49,7 +59,8 @@ const Blog = ({ blog, updateLikes }) => {
     <div style={blogStyle}>
       <div>
         {blog.title} {blog.author}
-        <button onClick={() => setViewVisible(true)}>view</button>
+        <button onClick={() => setViewVisible(true)}
+          style={{ backgroundColor: 'gray' }}>view</button>
       </div>
     </div>
   )
