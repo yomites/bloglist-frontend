@@ -74,8 +74,8 @@ const App = () => {
       .then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog))
         notifyWith(`${returnedBlog.title} by ${returnedBlog.author} successfully added`)
-      }).catch(error => {
-        notifyWith(`The fields can not be empty`, 'error')
+      }).catch(() => {
+        notifyWith('The fields can not be empty', 'error')
       })
   }
 
@@ -123,8 +123,8 @@ const App = () => {
           notifyWith(`Deleted ${toDelete.title} by ${toDelete.author}`)
         }).catch(error => {
           error.response.data.code === 401 ?
-          setBlogs(blogs) :
-          setBlogs(blogs.filter(b => b.id !== id))
+            setBlogs(blogs) :
+            setBlogs(blogs.filter(b => b.id !== id))
           notifyWith(error.response.data.error, 'error')
         })
     }

@@ -21,20 +21,34 @@ const Blog = ({ blog, updateLikes, user, deleteBlog }) => {
     })
   }
 
-  if (viewVisible && blog.user !== undefined) {
+  if (viewVisible && blog.user !== undefined && user.id !== blog.user.id) {
     return (
       <div style={blogStyle}>
         <div>
           {blog.title} {blog.author}
           <button onClick={() =>
             setViewVisible(false)}
-            style={{ backgroundColor: 'yellow' }}>hide</button> <br />
+          style={{ backgroundColor: 'yellow' }}>hide</button> <br />
+          {blog.url} <br />
+        likes {blog.likes} <button onClick={updateBlog}
+            style={{ backgroundColor: 'green' }}>like</button> <br />
+          {blog.user.name} <br />
+        </div>
+      </div>
+    )
+  } else if (viewVisible && blog.user !== undefined && user.id === blog.user.id) {
+    return (
+      <div style={blogStyle}>
+        <div>
+          {blog.title} {blog.author}
+          <button onClick={() =>
+            setViewVisible(false)}
+          style={{ backgroundColor: 'yellow' }}>hide</button> <br />
           {blog.url} <br />
         likes {blog.likes} <button onClick={updateBlog}
             style={{ backgroundColor: 'green' }}>like</button> <br />
           {blog.user.name} <br />
           <button
-            disabled={user.id !== blog.user.id ? true : false}
             onClick={() => deleteBlog(blog.id)}
             style={{ backgroundColor: 'red' }}>remove</button>
         </div>
@@ -47,7 +61,7 @@ const Blog = ({ blog, updateLikes, user, deleteBlog }) => {
           {blog.title} {blog.author}
           <button onClick={() =>
             setViewVisible(false)}
-            style={{ backgroundColor: 'yellow' }}>hide</button> <br />
+          style={{ backgroundColor: 'yellow' }}>hide</button> <br />
           {blog.url} <br />
         likes {blog.likes} <button onClick={updateBlog}
             style={{ backgroundColor: 'green' }}>like</button>
