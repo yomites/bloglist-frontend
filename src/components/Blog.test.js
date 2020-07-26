@@ -2,6 +2,7 @@ import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
 import { render, fireEvent } from '@testing-library/react'
 import Blog from './Blog'
+import BlogForm from '../forms/BlogForm'
 
 test('renders content', () => {
   const blog = {
@@ -36,7 +37,7 @@ test('blog url and number of likes are also shown when view button is clicked ',
     title: 'Component testing is done with react-testing-library',
     author: 'Brian Taylor',
     url: 'www.briantaylor.com',
-    likes: 2
+    likes: 0
   }
 
   const mockHandler = jest.fn()
@@ -59,7 +60,7 @@ test('blog url and number of likes are also shown when view button is clicked ',
     'www.briantaylor.com'
   )
   expect(component.container).toHaveTextContent(
-    2
+    0
   )
 })
 
@@ -68,7 +69,7 @@ test('clicking the likes button twice calls the event handler twice ', () => {
     title: 'Component testing is done with react-testing-library',
     author: 'Brian Taylor',
     url: 'www.briantaylor.com',
-    likes: 2
+    likes: 0
   }
 
   const mockHandler = jest.fn()
@@ -85,4 +86,33 @@ test('clicking the likes button twice calls the event handler twice ', () => {
   fireEvent.click(likesButton)
 
   expect(mockHandler.mock.calls).toHaveLength(2)
+})
+
+test('<BlogForm /> updates parent state and calls onSubmit', () => {
+  const createBlog = jest.fn()
+
+  const component = render(
+    <BlogForm createBlog={createBlog} />
+  )
+
+  const title = component.container.querySelector('#title')
+  const author = component.container.querySelector('#author')
+  const url = component.container.querySelector('#url')
+  const form = component.container.querySelector('form')
+
+  fireEvent.change(title, {
+    target: { value: 'testing of forms could be easier' }
+  })
+  fireEvent.change(author, {
+    target: { value: 'Brian Taylor' }
+  })
+  fireEvent.change(url, {
+    target: { value: 'www.brian.com' }
+  })
+  fireEvent.submit(form)
+
+  expect(createBlog.mock.calls).toHaveLength(1)
+  expect(createBlog.mock.calls[0][0].title).toBe('testing of forms could be easier')
+  expect(createBlog.mock.calls[0][0].author).toBe('Brian Taylor')
+  expect(createBlog.mock.calls[0][0].url).toBe('www.brian.com')
 })
