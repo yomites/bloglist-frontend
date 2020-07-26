@@ -1,5 +1,11 @@
 import React, { useState } from 'react'
-const Blog = ({ blog, updateLikes, user, deleteBlog }) => {
+
+const Blog = ({
+  blog,
+  updateLikes,
+  user,
+  deleteBlog
+}) => {
 
   const [viewVisible, setViewVisible] = useState(false)
 
@@ -9,6 +15,10 @@ const Blog = ({ blog, updateLikes, user, deleteBlog }) => {
     border: 'solid',
     borderWidth: 1,
     marginBottom: 5
+  }
+
+  const blogViewStatus = () => {
+    setViewVisible(!viewVisible)
   }
 
   const updateBlog = (blog) => {
@@ -26,9 +36,8 @@ const Blog = ({ blog, updateLikes, user, deleteBlog }) => {
       <div style={blogStyle}>
         <div>
           {blog.title} {blog.author}
-          <button onClick={() =>
-            setViewVisible(false)}
-          style={{ backgroundColor: 'yellow' }}>hide</button> <br />
+          <button onClick={blogViewStatus}
+            style={{ backgroundColor: 'yellow' }}>hide</button> <br />
           {blog.url} <br />
         likes {blog.likes} <button onClick={updateBlog}
             style={{ backgroundColor: 'green' }}>like</button> <br />
@@ -36,14 +45,14 @@ const Blog = ({ blog, updateLikes, user, deleteBlog }) => {
         </div>
       </div>
     )
+
   } else if (viewVisible && blog.user !== undefined && user.id === blog.user.id) {
     return (
       <div style={blogStyle}>
         <div>
           {blog.title} {blog.author}
-          <button onClick={() =>
-            setViewVisible(false)}
-          style={{ backgroundColor: 'yellow' }}>hide</button> <br />
+          <button onClick={blogViewStatus}
+            style={{ backgroundColor: 'yellow' }}>hide</button> <br />
           {blog.url} <br />
         likes {blog.likes} <button onClick={updateBlog}
             style={{ backgroundColor: 'green' }}>like</button> <br />
@@ -54,14 +63,14 @@ const Blog = ({ blog, updateLikes, user, deleteBlog }) => {
         </div>
       </div>
     )
+
   } else if (viewVisible && blog.user === undefined) {
     return (
       <div style={blogStyle}>
         <div>
           {blog.title} {blog.author}
-          <button onClick={() =>
-            setViewVisible(false)}
-          style={{ backgroundColor: 'yellow' }}>hide</button> <br />
+          <button onClick={blogViewStatus}
+            style={{ backgroundColor: 'yellow' }}>hide</button> <br />
           {blog.url} <br />
         likes {blog.likes} <button onClick={updateBlog}
             style={{ backgroundColor: 'green' }}>like</button>
@@ -69,11 +78,12 @@ const Blog = ({ blog, updateLikes, user, deleteBlog }) => {
       </div>
     )
   }
+
   return (
     <div style={blogStyle} className="blogDefaultDisplay">
       <div>
         {blog.title} {blog.author}
-        <button onClick={() => setViewVisible(true)}
+        <button onClick={blogViewStatus}
           style={{ backgroundColor: 'gray' }}>view</button>
       </div>
     </div>
