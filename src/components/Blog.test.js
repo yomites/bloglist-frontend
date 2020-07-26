@@ -48,7 +48,6 @@ test('blog url and number of likes are also shown when view button is clicked ',
   const button = component.getByText('view')
   fireEvent.click(button)
   component.debug()
-  console.log(mockHandler.mock.calls)
 
   expect(component.container).toHaveTextContent(
     'Component testing is done with react-testing-library'
@@ -62,4 +61,28 @@ test('blog url and number of likes are also shown when view button is clicked ',
   expect(component.container).toHaveTextContent(
     2
   )
+})
+
+test('clicking the likes button twice calls the event handler twice ', () => {
+  const blog = {
+    title: 'Component testing is done with react-testing-library',
+    author: 'Brian Taylor',
+    url: 'www.briantaylor.com',
+    likes: 2
+  }
+
+  const mockHandler = jest.fn()
+
+  const component = render(
+    <Blog blog={blog} updateLikes={mockHandler} />
+  )
+
+  const viewButton = component.getByText('view')
+  fireEvent.click(viewButton)
+
+  const likesButton = component.getByText('like')
+  fireEvent.click(likesButton)
+  fireEvent.click(likesButton)
+
+  expect(mockHandler.mock.calls).toHaveLength(2)
 })

@@ -158,7 +158,8 @@ const App = () => {
         <Blog key={blog.id} blog={blog}
           updateLikes={() => updateBlogLikes(blog.id)}
           user={user}
-          deleteBlog={deleteBlog} />
+          deleteBlog={deleteBlog}
+        />
       )}
     </div>
   )

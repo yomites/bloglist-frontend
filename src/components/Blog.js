@@ -33,7 +33,7 @@ const Blog = ({
 
   if (viewVisible && blog.user !== undefined && user.id !== blog.user.id) {
     return (
-      <div style={blogStyle}>
+      <div style={blogStyle} className='viewInfo'>
         <div>
           {blog.title} {blog.author}
           <button onClick={blogViewStatus}
@@ -48,7 +48,7 @@ const Blog = ({
 
   } else if (viewVisible && blog.user !== undefined && user.id === blog.user.id) {
     return (
-      <div style={blogStyle}>
+      <div style={blogStyle} className='viewInfo'>
         <div>
           {blog.title} {blog.author}
           <button onClick={blogViewStatus}
@@ -66,7 +66,7 @@ const Blog = ({
 
   } else if (viewVisible && blog.user === undefined) {
     return (
-      <div style={blogStyle}>
+      <div style={blogStyle} className='viewInfo'>
         <div>
           {blog.title} {blog.author}
           <button onClick={blogViewStatus}
