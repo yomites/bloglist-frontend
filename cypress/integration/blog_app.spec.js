@@ -37,4 +37,22 @@ describe('Blog app', function() {
       cy.get('html').should('not.contain', 'Matti Luukkainen logged in')
     })
   })
+
+  describe('When logged in', function() {
+    beforeEach(function() {
+      // log in user here
+      cy.login({ username: 'mluukkai', password: 'salainen' })
+    })
+
+    it('A blog can be created', function() {
+      // ...
+      cy.contains('create new blog').click()
+      cy.get('#title').type('a note created by cypress')
+      cy.get('#author').type('Yomi Oladele')
+      cy.get('#url').type('www.cypress.com')
+      cy.get('#createBlog').click()
+
+      cy.contains('a note created by cypress Yomi Oladele')
+    })
+  })
 })
