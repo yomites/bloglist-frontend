@@ -40,7 +40,7 @@ const Blog = ({
             style={{ backgroundColor: 'yellow' }}>hide</button> <br />
           {blog.url} <br />
         likes {blog.likes} <button onClick={updateBlog}
-            style={{ backgroundColor: 'green' }}>like</button> <br />
+            style={{ backgroundColor: 'green' }} id='likeButton'>like</button> <br />
           {blog.user.name} <br />
         </div>
       </div>
@@ -55,11 +55,11 @@ const Blog = ({
             style={{ backgroundColor: 'yellow' }}>hide</button> <br />
           {blog.url} <br />
         likes {blog.likes} <button onClick={updateBlog}
-            style={{ backgroundColor: 'green' }}>like</button> <br />
+            style={{ backgroundColor: 'green' }} id='likeButton'>like</button> <br />
           {blog.user.name} <br />
           <button
             onClick={() => deleteBlog(blog.id)}
-            style={{ backgroundColor: 'red' }}>remove</button>
+            style={{ backgroundColor: 'red' }} id='deleteButton'>remove</button>
         </div>
       </div>
     )
@@ -73,7 +73,7 @@ const Blog = ({
             style={{ backgroundColor: 'yellow' }}>hide</button> <br />
           {blog.url} <br />
         likes {blog.likes} <button onClick={updateBlog}
-            style={{ backgroundColor: 'green' }}>like</button>
+            style={{ backgroundColor: 'green' }} id='likeButton'>like</button>
         </div>
       </div>
     )
@@ -84,7 +84,7 @@ const Blog = ({
       <div>
         {blog.title} {blog.author}
         <button onClick={blogViewStatus}
-          style={{ backgroundColor: 'gray' }}>view</button>
+          style={{ backgroundColor: 'gray' }} id='viewButton'>view</button>
       </div>
     </div>
   )

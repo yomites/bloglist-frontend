@@ -54,5 +54,31 @@ describe('Blog app', function() {
 
       cy.contains('a note created by cypress Yomi Oladele')
     })
+
+    describe('and blogs exist', function () {
+      beforeEach(function () {
+        cy.createBlog({
+          title: 'another note cypress 1',
+          author: 'Mike Adell',
+          url: 'www.gogogo.com'
+        })
+        cy.createBlog({
+          title: 'another note cypress 2',
+          author: 'Ben Adell',
+          url: 'www.gofish.com'
+        })
+        cy.createBlog({
+          title: 'another note cypress 3',
+          author: 'Mike Adellin',
+          url: 'www.grant.com'
+        })
+      })
+
+      it('any of those can be liked', function () {
+        cy.contains('another note cypress 2').parent().find('#viewButton').click()
+        cy.contains('another note cypress 2').parent().find('#likeButton').click()
+        cy.contains('another note cypress 2').contains('Ben Adell').contains('http://gofish.com').contains(1)
+      })
+    })
   })
 })
