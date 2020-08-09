@@ -52,13 +52,13 @@ describe('Blog app', function() {
       cy.get('#title')
         .type('a note created by cypress')
       cy.get('#author')
-        .type('Yomi Oladele')
+        .type('Tommy Bankson')
       cy.get('#url')
         .type('www.cypress.com')
       cy.get('#createBlog')
         .click()
 
-      cy.contains('a note created by cypress Yomi Oladele')
+      cy.contains('a note created by cypress Tommy Bankson')
     })
 
     describe('and blogs exist', function () {
@@ -119,7 +119,7 @@ describe('Blog app', function() {
             .parent().find('#viewButton')
             .click()
           cy.contains('another note cypress 1')
-            .parent().find('#likeButton')
+            .parent().get('#likeButton')
             .click()
           cy.contains('another note cypress 1')
             .contains('Mike Adell')
